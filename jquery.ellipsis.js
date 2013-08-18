@@ -217,7 +217,7 @@
 
         base.$el.html(base.text);
 
-        resizeTimer = setTimeout(init, 10);
+        resizeTimer = setTimeout(init, 100);
       }
 
       $(window).on('resize.ellipsis', resize);
