@@ -69,7 +69,7 @@
 
       base.text = base.$cont.text();
 
-      base.$el = $('<span class="' + base.opts.ellipClass + '-wrap" />');
+      base.$el = $('<span class="' + base.opts.ellipClass + '" />');
       base.$el.text(base.text);
 
       base.$cont.empty().append(base.$el);
@@ -111,7 +111,7 @@
     function updateText(nth) {
       // add a span that wraps from nth
       // word to the end of the string
-      words[nth] = '<span class=' + base.opts.ellipClass + '>' + words[nth];
+      words[nth] = '<span class="' + base.opts.ellipClass + '-line">' + words[nth];
       words.push('</span>');
 
       // update the DOM with

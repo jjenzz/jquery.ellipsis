@@ -11,12 +11,12 @@ How do I use it?
 
 Add the following CSS to your stylesheet:
 
-    .ellip-wrap {
+    .ellip {
       display: block;
       height: 100%;
     }
 
-    .ellip {
+    .ellip-line {
       display: inline-block;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -25,7 +25,7 @@ Add the following CSS to your stylesheet:
     }
 
     .ellip,
-    .ellip-wrap {
+    .ellip-line {
       position: relative;
       overflow: hidden;
     }
@@ -38,7 +38,7 @@ You can customise with the following options:
 
     $('.foo').ellipsis({
       lines: 3,             // force ellipsis after a certain number of lines. Default is 'auto'
-      ellipClass: 'ellip',  // class used for last line of text and namespacing wrapper class
+      ellipClass: 'ellip',  // class used for ellipsis wrapper and to namespace ellip line
       responsive: true      // set to true if you want ellipsis to update on window resize. Default is false
     });
 
