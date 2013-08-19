@@ -240,7 +240,3 @@
   };
 
 }));
-
-$('.box').ellipsis();
-$('.two-lines').ellipsis({ lines: 2 });
-$('.responsive').ellipsis({ responsive: true });
