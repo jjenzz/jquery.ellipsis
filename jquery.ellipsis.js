@@ -50,19 +50,25 @@
 
     base.$cont = $(el);
     base.opts = $.extend({}, defaults, opts);
+    
+    // if they only want one line just add
+    // the class and do nothing else
+    if (typeof base.opts.lines === 'number' && base.opts.lines < 2) {
+      base.$el.addClass(base.opts.ellipClass);
+      return;
+    }
+    
+    // if they only want to ellipsis the overflow
+    // then do nothing if there is no overflow
+    if (base.opts.lines === 'auto' && el.scrollHeight <= base.$cont.outerHeight()) {
+      return;
+    }
 
     /**
      * create() happens once when
      * instance is created
      */
     function create() {
-      // if they only want one line just
-      // add the class and do nothing else
-      if (typeof base.opts.lines === 'number' && base.opts.lines < 2) {
-          base.$cont.addClass(base.opts.ellipClass);
-          return;
-      }
-
       if (!setStartEllipAt) {
           return;
       }
