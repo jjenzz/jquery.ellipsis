@@ -45,42 +45,25 @@
         resizeTimer,
         currOffset,
         lineHeight,
+        contHeight,
         elHeight,
         words;
 
     base.$cont = $(el);
     base.opts = $.extend({}, defaults, opts);
-    
-    // if they only want one line just add
-    // the class and do nothing else
-    if (typeof base.opts.lines === 'number' && base.opts.lines < 2) {
-      base.$el.addClass(base.opts.ellipClass);
-      return;
-    }
-    
-    // if they only want to ellipsis the overflow
-    // then do nothing if there is no overflow
-    if (base.opts.lines === 'auto' && el.scrollHeight <= base.$cont.outerHeight()) {
-      return;
-    }
-
+    base.opts.ellipLineClass = base.opts.ellipClass + '-line';
+      
     /**
      * create() happens once when
      * instance is created
      */
     function create() {
-      if (!setStartEllipAt) {
-          return;
-      }
-
       base.text = base.$cont.text();
 
       base.$el = $('<span class="' + base.opts.ellipClass + '" />');
       base.$el.text(base.text);
 
       base.$cont.empty().append(base.$el);
-
-      elHeight = base.$el.height();
 
       init();
     }
@@ -89,6 +72,26 @@
      * init()
      */
     function init() {
+      
+      // if they only want one line just add
+      // the class and do nothing else
+      if (typeof base.opts.lines === 'number' && base.opts.lines < 2) {
+        base.$el.addClass(base.opts.ellipLineClass);
+        return;
+      }
+      
+      elHeight = base.$el.height();
+      
+      // if they only want to ellipsis the overflow
+      // then do nothing if there is no overflow
+      if (base.opts.lines === 'auto' && base.$el.prop('scrollHeight') <= elHeight) {
+        return;
+      }
+      
+      if (!setStartEllipAt) {
+        return;
+      }
+    
       // create an array of words from our string
       words = $.trim(base.text).split(/\s+/);
 
@@ -117,7 +120,7 @@
     function updateText(nth) {
       // add a span that wraps from nth
       // word to the end of the string
-      words[nth] = '<span class="' + base.opts.ellipClass + '-line">' + words[nth];
+      words[nth] = '<span class="' + base.opts.ellipLineClass + '">' + words[nth];
       words.push('</span>');
 
       // update the DOM with
@@ -218,11 +221,9 @@
         currLine = 0;
         currOffset = null;
         startEllipAt = null;
-
-        clearTimeout(resizeTimer);
-
         base.$el.html(base.text);
 
+        clearTimeout(resizeTimer);
         resizeTimer = setTimeout(init, 100);
       }
 
