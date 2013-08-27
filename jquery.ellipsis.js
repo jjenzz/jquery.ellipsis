@@ -46,19 +46,18 @@
         currOffset,
         lineHeight,
         contHeight,
-        elHeight,
         words;
 
     base.$cont = $(el);
     base.opts = $.extend({}, defaults, opts);
-    base.opts.ellipLineClass = base.opts.ellipClass + '-line';
-      
+
     /**
      * create() happens once when
      * instance is created
      */
     function create() {
       base.text = base.$cont.text();
+      base.opts.ellipLineClass = base.opts.ellipClass + '-line';
 
       base.$el = $('<span class="' + base.opts.ellipClass + '" />');
       base.$el.text(base.text);
@@ -72,26 +71,26 @@
      * init()
      */
     function init() {
-      
+
       // if they only want one line just add
       // the class and do nothing else
       if (typeof base.opts.lines === 'number' && base.opts.lines < 2) {
         base.$el.addClass(base.opts.ellipLineClass);
         return;
       }
-      
-      elHeight = base.$el.height();
-      
+
+      contHeight = base.$cont.innerHeight();
+
       // if they only want to ellipsis the overflow
-      // then do nothing if there is no overflow
-      if (base.opts.lines === 'auto' && base.$el.prop('scrollHeight') <= elHeight) {
+      // then do nothing if there is no overflow      
+      if (base.opts.lines === 'auto' && base.$el.prop('scrollHeight') <= contHeight) {
         return;
       }
-      
+
       if (!setStartEllipAt) {
         return;
       }
-    
+
       // create an array of words from our string
       words = $.trim(base.text).split(/\s+/);
 
@@ -162,7 +161,7 @@
         // the element (overflowing) then
         // stop looping and set startEllipAt to
         // the first word in the previous line
-        if (top + lineHeight > elHeight) {
+        if (top + lineHeight > contHeight) {
           startEllipAt = i - lines[currLine - 1].length;
           return false;
         }
