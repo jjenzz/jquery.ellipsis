@@ -240,7 +240,7 @@
         $(this).data(namespace, (new Ellipsis(this, opts)));
       } catch (err) {
         if (window.console) {
-            console.error(namespace + ': ' + err);
+          console.error(namespace + ': ' + err);
         }
       }
     });
