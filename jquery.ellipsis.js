@@ -23,7 +23,8 @@
 }(function($) {
   'use strict';
 
-  var span = '<span style="white-space: nowrap;">',
+  var namespace = 'ellipsis', 
+      span = '<span style="white-space: nowrap;">',
       defaults = {
         lines: 'auto',
         ellipClass: 'ellip',
@@ -226,20 +227,20 @@
         resizeTimer = setTimeout(init, 100);
       }
 
-      $(window).on('resize.ellipsis', resize);
+      $(window).on('resize.' + namespace, resize);
     }
 
     // start 'er up
     create();
   }
 
-  $.fn.ellipsis = function(opts) {
+  $.fn[namespace] = function(opts) {
     return this.each(function() {
       try {
-        $(this).data('ellipsis', (new Ellipsis(this, opts)));
+        $(this).data(namespace, (new Ellipsis(this, opts)));
       } catch (err) {
         if (window.console) {
-            console.error('ellipsis: ' + err);
+            console.error(namespace + ': ' + err);
         }
       }
     });
