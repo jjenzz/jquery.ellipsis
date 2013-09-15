@@ -80,7 +80,7 @@
         return;
       }
 
-      contHeight = base.$cont.innerHeight();
+      contHeight = base.$cont.height();
 
       // if they only want to ellipsis the overflow
       // then do nothing if there is no overflow      
