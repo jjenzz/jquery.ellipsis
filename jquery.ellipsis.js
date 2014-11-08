@@ -23,7 +23,8 @@
 }(function($) {
   'use strict';
 
-  var span = '<span style="white-space: nowrap;">',
+  var namespace = 'ellipsis', 
+      span = '<span style="white-space: nowrap;">',
       defaults = {
         lines: 'auto',
         ellipClass: 'ellip',
@@ -45,7 +46,7 @@
         resizeTimer,
         currOffset,
         lineHeight,
-        elHeight,
+        contHeight,
         words;
 
     base.$cont = $(el);
@@ -57,25 +58,13 @@
      * instance is created
      */
     function create() {
-      // if they only want one line just
-      // add the class and do nothing else
-      if (typeof base.opts.lines === 'number' && base.opts.lines < 2) {
-          base.$cont.addClass(base.opts.ellipClass);
-          return;
-      }
-
-      if (!setStartEllipAt) {
-          return;
-      }
-
       base.text = base.$cont.text();
+      base.opts.ellipLineClass = base.opts.ellipClass + '-line';
 
       base.$el = $('<span class="' + base.opts.ellipClass + '" />');
       base.$el.text(base.text);
 
       base.$cont.empty().append(base.$el);
-
-      elHeight = base.$el.height();
 
       init();
     }
@@ -84,6 +73,26 @@
      * init()
      */
     function init() {
+
+      // if they only want one line just add
+      // the class and do nothing else
+      if (typeof base.opts.lines === 'number' && base.opts.lines < 2) {
+        base.$el.addClass(base.opts.ellipLineClass);
+        return;
+      }
+
+      contHeight = base.$cont.height();
+
+      // if they only want to ellipsis the overflow
+      // then do nothing if there is no overflow      
+      if (base.opts.lines === 'auto' && base.$el.prop('scrollHeight') <= contHeight) {
+        return;
+      }
+
+      if (!setStartEllipAt) {
+        return;
+      }
+
       // create an array of words from our string
       words = $.trim(base.text).split(/\s+/);
 
@@ -112,7 +121,7 @@
     function updateText(nth) {
       // add a span that wraps from nth
       // word to the end of the string
-      words[nth] = '<span class="' + base.opts.ellipClass + '-line">' + words[nth];
+      words[nth] = '<span class="' + base.opts.ellipLineClass + '">' + words[nth];
       words.push('</span>');
 
       // update the DOM with
@@ -154,7 +163,7 @@
         // the element (overflowing) then
         // stop looping and set startEllipAt to
         // the first word in the previous line
-        if (top + lineHeight > elHeight) {
+        if (top + lineHeight > contHeight) {
           startEllipAt = i - lines[currLine - 1].length;
           return false;
         }
@@ -213,35 +222,29 @@
         currLine = 0;
         currOffset = null;
         startEllipAt = null;
-
-        clearTimeout(resizeTimer);
-
         base.$el.html(base.text);
 
+        clearTimeout(resizeTimer);
         resizeTimer = setTimeout(init, 100);
       }
 
-      $(window).on('resize.ellipsis', resize);
+      $(window).on('resize.' + namespace, resize);
     }
 
     // start 'er up
     create();
   }
 
-  $.fn.ellipsis = function(opts) {
+  $.fn[namespace] = function(opts) {
     return this.each(function() {
       try {
-        $(this).data('ellipsis', (new Ellipsis(this, opts)));
+        $(this).data(namespace, (new Ellipsis(this, opts)));
       } catch (err) {
         if (window.console) {
-            console.error('ellipsis: ' + err);
+          console.error(namespace + ': ' + err);
         }
       }
     });
   };
 
 }));
-
-$('.box').ellipsis();
-$('.two-lines').ellipsis({ lines: 2 });
-$('.responsive').ellipsis({ responsive: true });
