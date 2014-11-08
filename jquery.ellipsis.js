@@ -23,7 +23,7 @@
 }(function($) {
   'use strict';
 
-  var namespace = 'ellipsis', 
+  var namespace = 'ellipsis',
       span = '<span style="white-space: nowrap;">',
       defaults = {
         lines: 'auto',
@@ -51,7 +51,6 @@
 
     base.$cont = $(el);
     base.opts = $.extend({}, defaults, opts);
-    console.log('teaching greg');
 
     /**
      * create() happens once when
@@ -84,7 +83,7 @@
       contHeight = base.$cont.height();
 
       // if they only want to ellipsis the overflow
-      // then do nothing if there is no overflow      
+      // then do nothing if there is no overflow
       if (base.opts.lines === 'auto' && base.$el.prop('scrollHeight') <= contHeight) {
         return;
       }
