@@ -50,6 +50,7 @@
 
     base.$cont = $(el);
     base.opts = $.extend({}, defaults, opts);
+    console.log('teaching greg');
 
     /**
      * create() happens once when
