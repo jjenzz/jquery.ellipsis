@@ -242,7 +242,7 @@
 
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(init, 100);
-      }
+      };
 
       $(window).on('resize.' + namespace, resize);
     }
