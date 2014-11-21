@@ -23,7 +23,7 @@
 }(function($) {
   'use strict';
 
-  var namespace = 'ellipsis', 
+  var namespace = 'ellipsis',
       span = '<span style="white-space: nowrap;">',
       defaults = {
         lines: 'auto',
@@ -47,7 +47,17 @@
         currOffset,
         lineHeight,
         contHeight,
-        words;
+        words,
+        htmlEntities;
+                   // List of HTML entities for escaping.
+    var htmlEntities = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#x27;',
+      '`': '&#x60;'
+    };
 
     base.$cont = $(el);
     base.opts = $.extend({}, defaults, opts);
@@ -83,7 +93,7 @@
       contHeight = base.$cont.height();
 
       // if they only want to ellipsis the overflow
-      // then do nothing if there is no overflow      
+      // then do nothing if there is no overflow
       if (base.opts.lines === 'auto' && base.$el.prop('scrollHeight') <= contHeight) {
         return;
       }
@@ -93,7 +103,7 @@
       }
 
       // create an array of words from our string
-      words = $.trim(base.text).split(/\s+/);
+      words = $.trim(escapeText(base.text)).split(/\s+/);
 
       // wrap each word in a span and temporarily append to the DOM
       base.$el.html(span + words.join('</span> ' + span) + '</span>');
@@ -126,6 +136,12 @@
       // update the DOM with
       // our new string/markup
       base.$el.html(words.join(' '));
+    }
+
+    function escapeText(text){
+      return String(text).replace(/[&<>"'\/]/g, function (s) {
+        return htmlEntities[s];
+      });
     }
 
     // only define the method if it's required
@@ -221,7 +237,7 @@
         currLine = 0;
         currOffset = null;
         startEllipAt = null;
-        base.$el.html(base.text);
+        base.$el.html(escapeText(base.text));
 
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(init, 100);
