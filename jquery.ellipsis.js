@@ -51,7 +51,7 @@
         htmlEntities;
 
     // List of HTML entities for escaping.
-    var htmlEntities = {
+    htmlEntities = {
       '&': '&amp;',
       '<': '&lt;',
       '>': '&gt;',
