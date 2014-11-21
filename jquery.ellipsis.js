@@ -49,7 +49,8 @@
         contHeight,
         words,
         htmlEntities;
-                   // List of HTML entities for escaping.
+
+    // List of HTML entities for escaping.
     var htmlEntities = {
       '&': '&amp;',
       '<': '&lt;',
