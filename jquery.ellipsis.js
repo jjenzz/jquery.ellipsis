@@ -210,6 +210,7 @@
 
     // only bind to window resize if required
     if (base.opts.responsive) {
+      var windowWidth = $(window).width();
 
       /**
        * resize() resets necessary vars
@@ -217,6 +218,11 @@
        * the Ellipsis script
        */
       var resize = function() {
+        if ($(window).width() == windowWidth) {
+          return;
+        }
+        windowWidth = $(window).width();
+
         lines = [];
         currLine = 0;
         currOffset = null;
