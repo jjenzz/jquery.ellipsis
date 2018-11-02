@@ -57,7 +57,9 @@
       '>': '&gt;',
       '"': '&quot;',
       "'": '&#x27;',
-      '`': '&#x60;'
+      '`': '&#x60;',
+      '/': '&#x2F;',
+      '\\': '&#x5C;'
     };
 
     base.$cont = $(el);
@@ -140,7 +142,7 @@
     }
 
     function escapeText(text){
-      return String(text).replace(/[&<>"'\/]/g, function (s) {
+      return String(text).replace(/[&<>"'``\/]/g, function (s) {
         return htmlEntities[s];
       });
     }
