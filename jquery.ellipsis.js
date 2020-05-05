@@ -121,6 +121,15 @@
       if (startEllipAt != null) {
         updateText(startEllipAt);
       }
+
+      if (base.opts.responsive) {
+        //Update max-height to avoid full text showing during resize event
+        $(base.$el).css({
+          'max-height': ''
+        }).css({
+          'max-height': base.$el.outerHeight(true)
+        });
+      }
     }
 
     /**
